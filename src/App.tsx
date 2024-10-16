@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { fetchQuizQuestions } from './API';
 // Components
 import QuestionCard from './components/QuestionCard';
+import Layout from './components/Layout.tsx'; // Import the layout component
 // types
 import { QuestionsState, Difficulty } from './API';
 // Styles
@@ -10,6 +11,7 @@ import { GlobalStyle, Wrapper } from './App.styles';
 
 // Home and other components
 import Home from './components/Home.jsx.tsx';
+import VideoIntro from "./components/VideoIntro.jsx.tsx";
 
 export type AnswerObject = {
     question: string;
@@ -27,6 +29,7 @@ const Quiz: React.FC = () => {
     const [userAnswers, setUserAnswers] = useState<AnswerObject[]>([]);
     const [score, setScore] = useState(0);
     const [gameOver, setGameOver] = useState(true);
+    const [videoEnded, setVideoEnded] = useState(false);
 
     const startTrivia = async () => {
         setLoading(true);
@@ -65,12 +68,24 @@ const Quiz: React.FC = () => {
             setNumber(nextQ);
         }
     };
+    const handleVideoEnd = () => {
+        setVideoEnded(true); // Set video ended state to true
+    };
 
     return (
         <>
             <GlobalStyle />
             <Wrapper>
                 <h1>QUIZ</h1>
+                {videoEnded ? (
+                    gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
+                        <button className='start' onClick={startTrivia}>
+                            Start
+                        </button>
+                    ) : null
+                ) : (
+                    <VideoIntro onVideoEnd={handleVideoEnd} /> // Render VideoIntro component
+                )}
                 {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
                     <button className='start' onClick={startTrivia}>
                         Start
@@ -100,22 +115,15 @@ const Quiz: React.FC = () => {
 
 const App: React.FC = () => {
     return (
-        <Router>  {/* Correct usage of BrowserRouter */}
+        <Router>
             <GlobalStyle />
-            <nav>
-                <ul>
-                    <li>
-                        <Link to="/">Home</Link>
-                    </li>
-                    <li>
-                        <Link to="/quiz">Quiz</Link>
-                    </li>
-                </ul>
-            </nav>
             <Wrapper>
                 <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/quiz" element={<Quiz />} />
+                    <Route path="/" element={<Layout />}>
+                        {/* Define child routes that will render inside the layout */}
+                        <Route index element={<Home />} />
+                        <Route path="quiz" element={<Quiz />} />
+                    </Route>
                 </Routes>
             </Wrapper>
         </Router>
