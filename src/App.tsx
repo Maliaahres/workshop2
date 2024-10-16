@@ -13,6 +13,7 @@ import { GlobalStyle, Wrapper } from './App.styles';
 import Home from './components/Home.jsx.tsx';
 import VideoIntro from "./components/VideoIntro.jsx.tsx";
 
+
 export type AnswerObject = {
     question: string;
     answer: string;
@@ -20,7 +21,7 @@ export type AnswerObject = {
     correctAnswer: string;
 };
 
-const TOTAL_QUESTIONS = 10;
+const TOTAL_QUESTIONS = 5;
 
 const Quiz: React.FC = () => {
     const [loading, setLoading] = useState(false);
@@ -30,18 +31,17 @@ const Quiz: React.FC = () => {
     const [score, setScore] = useState(0);
     const [gameOver, setGameOver] = useState(true);
     const [videoEnded, setVideoEnded] = useState(false);
+    const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
 
     const startTrivia = async () => {
         setLoading(true);
         setGameOver(false);
-        const newQuestions = await fetchQuizQuestions(
-            TOTAL_QUESTIONS,
-            Difficulty.EASY
-        );
+        const newQuestions = await fetchQuizQuestions(TOTAL_QUESTIONS, Difficulty.EASY);
         setQuestions(newQuestions);
         setScore(0);
         setUserAnswers([]);
         setNumber(0);
+        setCorrectAnswersCount(0); // Reset correct answers count
         setLoading(false);
     };
 
@@ -49,7 +49,12 @@ const Quiz: React.FC = () => {
         if (!gameOver) {
             const answer = e.currentTarget.value;
             const correct = questions[number].correct_answer === answer;
-            if (correct) setScore((prev) => prev + 1);
+
+            if (correct) {
+                setScore((prev) => prev + 1);
+                setCorrectAnswersCount((prev) => prev + 1); // Increment correct answers count
+            }
+
             const answerObject = {
                 question: questions[number].question,
                 answer,
@@ -68,8 +73,18 @@ const Quiz: React.FC = () => {
             setNumber(nextQ);
         }
     };
+
     const handleVideoEnd = () => {
         setVideoEnded(true); // Set video ended state to true
+    };
+
+    // Reset function for the retry
+    const handleRetry = () => {
+        setCorrectAnswersCount(0);
+        setUserAnswers([]);
+        setScore(0);
+        setNumber(0);
+        setGameOver(true); // Optionally, you can set this to true if you want to show the start button again
     };
 
     return (
@@ -80,7 +95,7 @@ const Quiz: React.FC = () => {
                 {videoEnded ? (
                     gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
                         <button className='start' onClick={startTrivia}>
-                            Start
+                            Commencer
                         </button>
                     ) : null
                 ) : (
@@ -88,11 +103,11 @@ const Quiz: React.FC = () => {
                 )}
                 {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
                     <button className='start' onClick={startTrivia}>
-                        Start
+                        Commencer
                     </button>
                 ) : null}
-                {!gameOver ? <p className='score'>Score: {score}</p> : null}
-                {loading ? <p>Loading Questions...</p> : null}
+                {!gameOver ? <p className='score'>Score : {score}</p> : null} {/* Score in French */}
+                {loading ? <p>Chargement des questions...</p> : null} {/* Loading message in French */}
                 {!loading && !gameOver && (
                     <QuestionCard
                         questionNr={number + 1}
@@ -101,17 +116,26 @@ const Quiz: React.FC = () => {
                         answers={questions[number].answers}
                         userAnswer={userAnswers ? userAnswers[number] : undefined}
                         callback={checkAnswer}
+                        correctAnswersCount={correctAnswersCount}
+                        onRetry={handleRetry} // Pass the retry function
                     />
                 )}
                 {!gameOver && !loading && userAnswers.length === number + 1 && number !== TOTAL_QUESTIONS - 1 ? (
                     <button className='next' onClick={nextQuestion}>
-                        Next Question
+                        Question suivante {/* Next Question in French */}
                     </button>
                 ) : null}
+                {/* Show retry button if the user has 7 correct answers */}
+                {correctAnswersCount >= 3 && !gameOver && (
+                    <button className='retry' onClick={handleRetry}>
+                        Réessayer {/* Retry in French */}
+                    </button>
+                )}
             </Wrapper>
         </>
     );
 };
+
 
 const App: React.FC = () => {
     return (

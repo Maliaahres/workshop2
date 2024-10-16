@@ -1,7 +1,6 @@
 import { shuffleArray } from './utils';
 
 export type Question = {
-    category: string;
     correct_answer: string;
     difficulty: string;
     incorrect_answers: string[];
@@ -17,86 +16,41 @@ export enum Difficulty {
 
 export type QuestionsState = Question & { answers: string[] };
 
-// Local questions data with three categories
+// Local questions data without categories
 const localQuestions: Question[] = [
     {
-        category: "General Knowledge",
-        correct_answer: "Mount Everest",
+        correct_answer: " Son mot de passe",
         difficulty: Difficulty.EASY,
-        incorrect_answers: ["K2", "Kangchenjunga", "Lhotse"],
-        question: "What is the highest mountain in the world?",
+        incorrect_answers: [" Son adresse email", "Son nom complet", "Toutes les réponses ci-dessus"],
+        question: "Quelle information personnelle ne faut-il jamais partager en ligne ?",
         type: "multiple"
     },
     {
-        category: "Science & Nature",
-        correct_answer: "Mars",
-        difficulty: Difficulty.MEDIUM,
-        incorrect_answers: ["Venus", "Jupiter", "Saturn"],
-        question: "Which planet is known as the Red Planet?",
-        type: "multiple"
-    },
-    {
-        category: "Entertainment",
-        correct_answer: "The Godfather",
-        difficulty: Difficulty.HARD,
-        incorrect_answers: ["Scarface", "Goodfellas", "The Irishman"],
-        question: "Which movie won the Oscar for Best Picture in 1972?",
-        type: "multiple"
-    },
-    {
-        category: "General Knowledge",
-        correct_answer: "Pacific Ocean",
+        correct_answer: "Vérifier si c'est quelqu'un que tu connais vraiment",
         difficulty: Difficulty.EASY,
-        incorrect_answers: ["Atlantic Ocean", "Indian Ocean", "Arctic Ocean"],
-        question: "What is the largest ocean in the world?",
+        incorrect_answers: ["Accepter directement sans réfléchir", "Demander à un ami de vérifier", "Lui envoyer ton mot de passe"],
+        question: "Que dois-tu faire avant d'accepter un nouvel ami sur les réseaux sociaux ?",
         type: "multiple"
     },
     {
-        category: "Science & Nature",
-        correct_answer: "Einstein",
-        difficulty: Difficulty.MEDIUM,
-        incorrect_answers: ["Newton", "Galileo", "Tesla"],
-        question: "Who developed the theory of relativity?",
-        type: "multiple"
-    },
-    {
-        category: "Entertainment",
-        correct_answer: "Star Wars",
-        difficulty: Difficulty.HARD,
-        incorrect_answers: ["Star Trek", "Guardians of the Galaxy", "Battlestar Galactica"],
-        question: "Which 1977 sci-fi movie became a cultural phenomenon?",
-        type: "multiple"
-    },
-    {
-        category: "General Knowledge",
-        correct_answer: "China",
+        correct_answer: "Utiliser un mot de passe long et unique, et activer la double authentification",
         difficulty: Difficulty.EASY,
-        incorrect_answers: ["India", "USA", "Russia"],
-        question: "Which country has the largest population in the world?",
+        incorrect_answers: ["Utiliser le même mot de passe partout", "Partager ton mot de passe avec tes amis", "d) Ne jamais se déconnecter de ses comptes"],
+        question: "Quel est le meilleur moyen de protéger ton compte ?",
         type: "multiple"
     },
     {
-        category: "Science & Nature",
-        correct_answer: "Oxygen",
-        difficulty: Difficulty.MEDIUM,
-        incorrect_answers: ["Nitrogen", "Hydrogen", "Carbon Dioxide"],
-        question: "What is the most abundant gas in the Earth's atmosphere?",
-        type: "multiple"
-    },
-    {
-        category: "Entertainment",
-        correct_answer: "The Beatles",
-        difficulty: Difficulty.HARD,
-        incorrect_answers: ["The Rolling Stones", "Led Zeppelin", "Pink Floyd"],
-        question: "Which band released the album 'Abbey Road'?",
-        type: "multiple"
-    },
-    {
-        category: "General Knowledge",
-        correct_answer: "Albert Einstein",
+        correct_answer: "Ne jamais les donner et signaler la personne si elle insiste",
         difficulty: Difficulty.EASY,
-        incorrect_answers: ["Isaac Newton", "Nikola Tesla", "Stephen Hawking"],
-        question: "Who is famous for developing the theory of relativity?",
+        incorrect_answers: ["Les donner si la personne semble gentille", "Les donner seulement si tu la connais un peu", "d) Ne jamais donner d'informations"],
+        question: "Que faire si quelqu'un te demande des informations personnelles en ligne ?",
+        type: "multiple"
+    },
+    {
+        correct_answer: "Bloquer la personne et signaler le compte",
+        difficulty: Difficulty.EASY,
+        incorrect_answers: ["Ignorer et continuer à discuter avec la personne", "Répondre de manière agressive", "d) Fermer ton compte immédiatement"],
+        question: "Comment réagir si quelqu'un te harcèle sur les réseaux sociaux ?",
         type: "multiple"
     },
 ];

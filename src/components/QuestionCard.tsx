@@ -11,6 +11,8 @@ type Props = {
     userAnswer: AnswerObject | undefined;
     questionNr: number;
     totalQuestions: number;
+    correctAnswersCount: number;
+    onRetry: () => void;
 };
 
 const QuestionCard: React.FC<Props> = ({
@@ -20,6 +22,8 @@ const QuestionCard: React.FC<Props> = ({
                                            userAnswer,
                                            questionNr,
                                            totalQuestions,
+                                           correctAnswersCount,
+                                           onRetry,
                                        }) => (
     <Wrapper>
         <p className='number'>
@@ -39,6 +43,11 @@ const QuestionCard: React.FC<Props> = ({
                 </ButtonWrapper>
             ))}
         </div>
+        {correctAnswersCount === 7 && (
+            <ButtonWrapper $correct $userClicked>
+                <button onClick={onRetry}>Retry</button>
+            </ButtonWrapper>
+        )}
     </Wrapper>
 );
 
