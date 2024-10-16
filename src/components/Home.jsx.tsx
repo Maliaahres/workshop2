@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import quizImage from './../images/home-background.png'; // Update with the correct path to your image
+import homeGif from './../assets/home-gif.gif'; // Update with the correct path to your image
 
 const Container = styled.div`
   display: flex;
@@ -94,7 +94,7 @@ const Home: React.FC = () => {
             </TextSection>
 
             <ImageSection>
-                <StyledImage src={quizImage} alt="Quiz" />
+                <StyledImage src={homeGif} alt="Quiz" />
             </ImageSection>
 
             <Features>
