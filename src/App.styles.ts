@@ -1,5 +1,5 @@
 import styled, { createGlobalStyle } from 'styled-components';
-import BGImage from './images/quiz-background.jpg';
+
 
 export const GlobalStyle = createGlobalStyle`
   html {
@@ -7,12 +7,12 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    background-image: url(${BGImage});
-    background-size: cover;
+    background: linear-gradient(to bottom, #FFA500, #FFDE80); /* Gradient from orange to light orange */
     margin: 0;
     padding: 0 20px;
     display: flex;
     justify-content: center;
+    background-size: cover; /* This property is more relevant for images, but it won't hurt to keep it */
   }
 
   * {

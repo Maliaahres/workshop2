@@ -1,6 +1,7 @@
 import { Outlet, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Footer from "./Footer.jsx.tsx";
+import logo from '../assets/logo.png';
 
 // Define styled-components if needed
 const Nav = styled.nav`
@@ -11,11 +12,16 @@ const Nav = styled.nav`
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5); /* Add subtle shadow for depth */
   margin-bottom: 20px;
 
+  display: flex; /* Use flexbox for alignment */
+  align-items: center; /* Center items vertically */
+
   ul {
     list-style: none;
     display: flex;
     justify-content: center; /* Center items in the nav */
     gap: 30px; /* Increase space between links for readability */
+    margin: 0; /* Remove default margin */
+    padding-left: 0; /* Remove default padding */
   }
 
   li {
@@ -42,15 +48,22 @@ const Nav = styled.nav`
     color: #0085a3;
     font-weight: bold; /* Make the active link stand out */
   }
+
+  img {
+    width: 150px; /* Set a specific width for the logo */
+    height: auto; /* Maintain aspect ratio */
+    margin-right: 20px; /* Space between logo and nav items */
+  }
 `;
 
 const Layout: React.FC = () => {
     return (
         <>
             <Nav>
+                <img src={logo} alt="Logo" /> {/* Add your logo here */}
                 <ul>
                     <li>
-                        <Link to="/">Home</Link>
+                        <Link to="/">Accueil</Link>
                     </li>
                     <li>
                         <Link to="/quiz">Quiz</Link>
@@ -60,14 +73,9 @@ const Layout: React.FC = () => {
             <main>
                 <Outlet /> {/* Renders the matched child route component */}
             </main>
-
-            <Footer>
-                <p>&copy; {new Date().getFullYear()} Quiz App. All rights reserved.
-                    <a href="https://yourwebsite.com">Visit Us</a>
-                </p>
-            </Footer>
-
+            <Footer/>
         </>
     );
 };
-export default Layout
+
+export default Layout;
